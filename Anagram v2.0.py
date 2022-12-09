@@ -25,7 +25,11 @@ def shuffle_word(word):
 
 def initiate_game():
 
-    word_length = int(input ('How many letters do you want? '))
+    word_length = int(input ('How many letters do you want? (3-8) '))
+    if not 3 < word_length < 8 :
+        print ("Invalid number")
+        initiate_game()
+
     infile = open("Word_list.txt","r")
     # Gets the random word of the input length and strips the new line
     word = random_line(x for x in infile if len(x) == word_length + 1).strip("\n")
