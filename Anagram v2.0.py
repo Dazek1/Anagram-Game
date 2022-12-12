@@ -26,9 +26,15 @@ def shuffle_word(word):
 
 def get_word_length():
     
-    word_length = int(input ('How many letters do you want? (3-8) '))
-    if not 3 < word_length < 9 :
+    word_length = input ('How many letters do you want? (3-8) ')
+    if not word_length.isdigit():
+        print ("Please enter a number from 3-8 " )
+        return get_word_length()
+    word_length = int(word_length)
+    if not 2 < word_length < 9 :
         print ("Invalid number")
+        return get_word_length()
+    
     return word_length
 
 # Finds all anagrams of the word in the text file
@@ -48,7 +54,7 @@ def initiate_game():
     print ("The word to unscramble is: ", question)
     # Calls the get_anagrams function to make a list of all the anagrams
     with open("Word_list.txt", "r") as word_list:
-        anagrams = get_anagrams(word, (word.strip("\n") for word in word_list if len(word) == word_length+1))
+        anagrams = get_anagrams(word, (word.strip("\n") for word in word_list if len(word) == word_length + 1))
         
         # Prints the list of anagrams for testing purposes
         print (anagrams)
@@ -61,9 +67,11 @@ def initiate_game():
         if guess in anagrams:
             anagrams.remove(guess)
             print(f"Correct, {len(anagrams)} anagrams remain")
+            continue
+        print("Incorrect - try again")
     keep_playing()
     return
-    print("Incorrect - try again")
+    
         
 
 # Asks user if they want to play again
