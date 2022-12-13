@@ -1,5 +1,8 @@
 import random
 import collections
+import threading
+import time    
+#Github commit test
 
 # Gets random line from text file
 
@@ -37,6 +40,36 @@ def get_word_length():
     
     return word_length
 
+# Defines the countdown function
+
+def countdown(t):
+    
+    while t:
+        mins, secs = divmod(t, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        print(timeformat, end='\r')
+        time.sleep(1)
+        t -= 1
+    print("Times Up!\n")
+
+# Sets game length dependent on number of letters in anagram
+
+def game_time(word_length):
+    if word_length == 3:
+        t=120
+    elif word_length == 4:
+        t=150
+    elif word_length == 5:
+        t=180
+    elif word_length == 6:
+        t=210
+    elif word_length == 7:
+        t=240
+    elif word_length == 8:
+        t=300
+    return t
+
+
 # Finds all anagrams of the word in the text file
 
 def get_anagrams(word, word_list):
@@ -45,7 +78,7 @@ def get_anagrams(word, word_list):
 # Main game function    
 
 def initiate_game():
-    word_length = get_word_length()
+    count_thread = threading.Thread(None, countdown(int(t)))
     infile = open("Word_list.txt","r")
     # Gets the random word of the input length and strips the new line
     word = random_line(x for x in infile if len(x) == word_length + 1).strip("\n")
@@ -88,4 +121,5 @@ def keep_playing():
     print ("Enter y or n")
     keep_playing()
 
+word_length = get_word_length()
 initiate_game()
